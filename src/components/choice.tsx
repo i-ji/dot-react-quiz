@@ -1,4 +1,5 @@
 type ChoiceType = {
+  num: number;
   question: string;
   options: [
     { id: number; option: string; judge: boolean },
@@ -6,17 +7,18 @@ type ChoiceType = {
     { id: number; option: string; judge: boolean }
   ];
   isCorrent: number;
-  changeQuiz: (id: number) => void;
+  changeQuiz: (id: number, num: number) => void;
 };
 
 const Choice: React.FC<ChoiceType> = ({
+  num,
   question,
   options,
   isCorrent,
   changeQuiz,
 }) => {
-  const showAnswer = (id: number) => {
-    changeQuiz(id);
+  const showAnswer = (id: number, num: number) => {
+    changeQuiz(id, num);
   };
 
   return (
@@ -27,12 +29,12 @@ const Choice: React.FC<ChoiceType> = ({
           return (
             <li
               key={opt.id}
-              onClick={() => showAnswer(opt.id)}
+              onClick={() => showAnswer(opt.id, num)}
               className={
                 opt.judge === true && opt.id === isCorrent
-                  ? "text-green-500"
+                  ? "text-green-500 after:content-['正解!']"
                   : opt.judge === true && opt.id !== isCorrent
-                  ? "text-red-500"
+                  ? "text-red-500 after:content-['不正解...']"
                   : ""
               }
             >
